@@ -1,0 +1,35 @@
+const Asena = require('../events');
+const {MessageType, MessageOptions, Mimetype} = require('@adiwajshing/baileys');
+const fs = require('fs');
+const axios = require('axios');
+const request = require('request');
+const got = require("got");
+const Config = require('../config');
+const Language = require('../language');
+const Lang = Language.getString('webss');
+
+if (Config.WORKTYPE == 'private') {
+
+    Asena.addCommand({pattern: 'canliucak', fromMe: true}, (async (message, match) => {
+
+        if (match[1] === '') return await message.sendMessage(Lang.LİNK);
+
+        var webimage = await axios.get(`https://shot.screenshotapi.net/screenshot?&url=https%3A%2F%2Fwww.flightradar24.com%2F37.78%2C33.85%2F5&width=1000&height=1000&output=image&file_type=png&lazy_load=true&wait_for_event=load&delay=2500`, { responseType: 'arraybuffer' })
+
+        await message.sendMessage(Buffer.from(webimage.data), MessageType.image, {mimetype: Mimetype.jpg, caption: '✈ *Türkiye üzerinden uçan canlı uçaklar;*'})
+
+    }));
+} 
+
+else if (Config.WORKTYPE == 'public') {
+
+    Asena.addCommand({pattern: 'canliucak', fromMe: false}, (async (message, match) => {
+
+        if (match[1] === '') return await message.sendMessage(Lang.LİNK);
+
+        var webimage = await axios.get(`https://shot.screenshotapi.net/screenshot?&url=https%3A%2F%2Fwww.flightradar24.com%2F37.78%2C33.85%2F5&width=1000&height=1000&output=image&file_type=png&lazy_load=true&wait_for_event=load&delay=2500`, { responseType: 'arraybuffer' })
+
+        await message.sendMessage(Buffer.from(webimage.data), MessageType.image, {mimetype: Mimetype.jpg, caption: '✈ *Türkiye üzerinden uçan canlı uçaklar;*'})
+
+    }));
+} 
